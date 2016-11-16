@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<title>Gestion d'un formulaire en JavaScript</title>
+<meta charset="utf-8" />
+</head>
+<body>
+
+<form method="post" action="#" enctype="multipart/form-data" id="myForm">
+<p><label for="ville">Ville<span class="alerte" title="champ obligatoire">*</span></label>
+  <input name="ville" id="ville" value="" type="text"></p>
+<p class="actions"><input name="envoyer" value="Envoyer" class="submit" type="submit"></p>
+</form>
+<div id="contenu"></div>
+</body>
+</html>
+<script>
+var interprete = function (xhrpe) {
+	var donnees = JSON.parse(xhrpe["currentTarget"]["response"]);
+	var divc = document.getElementById("contenu");
+	var table = document.createElement("table");
+	var tbody = document.createElement("tbody");
+
+	var tr = document.createElement("tr");
+	tr.setAttribute("class", "odd");
+	var td1 = document.createElement("td");
+	td1.setAttribute("align", "left");
+	td1["innerHTML"] = "Ville";
+	tr.appendChild(td1);
+	var td2 = document.createElement("td");
+	td2.setAttribute("align", "right");
+	td2["innerHTML"] = donnees["name"];
+	tr.appendChild(td2);
+	tbody.appendChild(tr);
+
+	tr = document.createElement("tr");
+	tr.setAttribute("class", "odd");
+	td1 = document.createElement("td");
+	td1.setAttribute("align", "left");
+	td1["innerHTML"] = "Température";
+	tr.appendChild(td1);
+	td2 = document.createElement("td");
+	td2.setAttribute("align", "right");
+	td2["innerHTML"] = donnees["main"]["temp"];
+	tr.appendChild(td2);
+	tbody.appendChild(tr);
+
+	table.appendChild(tbody);
+	divc.appendChild(table);
+}
+var myForm = document.getElementById('myForm');
+myForm.addEventListener('submit', function(e) {
+	e.preventDefault();
+	var ville = document.getElementById('ville');
+	var url = "http://api.openweathermap.org/data/2.5/weather?q=" + ville.value + ",France&units=metric&lang=fr&APPID=8d64c81353edc8593608bd6e1f95ddec";
+	var requete = new XMLHttpRequest();
+	requete.open("GET", url, true);
+	requete.onload = interprete;
+	requete.send();
+}, false);
+</script>

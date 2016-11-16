@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Des Patates</title>
+</head>
+
+<body>
+
+
+    <script>
+        var response = prompt('Aimez vous les patates ? oui/non :')
+        var niveau = '';
+        if (response == 'non') {
+            alert('Mais cest lamidon')
+        } else if (response == 'oui') {
+
+            for (var i = 0; i < 7; i++) {
+                // On affiche les valeurs de notre boucle dans la console.
+
+                    niveau = niveau + '#'
+
+
+                console.log(niveau)
+            }
+
+        } else {
+            alert('Je vous sens comme tiraillé')
+        }
+    </script>
+
+</body>
+
+</html>

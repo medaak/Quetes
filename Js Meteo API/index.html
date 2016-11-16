@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+        <style>
+            div {
+                font-size: 18px;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <div class="form-group">
+            <label for="inputCity">Votre ville</label>
+            <input type="text" class="form-control" id="inputCity" placeholder="Ville">
+        </div>
+        <button class="btn btn-default" id="meteo">Voir la météo</button>
+
+        <div id="Resultat"></div>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#meteo").on('click', function() {
+
+                    function reqListener() {
+                        var meteoVille = JSON.parse(this.responseText);
+                        var nomVille = meteoVille.name;
+                        var degre = parseInt(meteoVille.main.temp);
+                        var urlIcon = meteoVille.weather[0].icon
+                        var urlImage = "http://openweathermap.org/img/w/" + urlIcon + ".png"
+
+                        document.getElementById('Resultat').innerHTML =
+                        "<br>Bonjour, en ce moment il fait " + degre + "° à " + nomVille + ".<br> Le temps est <img src=" + urlImage + ">"
+
+                    }
+
+                    // la variable city récupère la ville rentrée dans le fomulaire
+
+                    var city = document.getElementById("inputCity").value;
+
+                    // requête sur l'api weathermap avec la variable city et l'api key
+
+                    var req = new XMLHttpRequest();
+                    req.onload = reqListener;
+                    req.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=metric&APPID=40f8efd07c4503e02cbfc12037e0b175', false);
+                    req.send();
+
+                });
+            });
+        </script>
+
+    </body>
+</html>
